@@ -6,402 +6,625 @@
 .target sm_90a
 .address_size 64
 
-	// .globl	mm_kernel_general_host_tma // -- Begin function mm_kernel_general_host_tma
+	// .globl	mm_kernel_general_device_tma // -- Begin function mm_kernel_general_device_tma
 .extern .shared .align 16 .b8 global_smem[];
-                                        // @mm_kernel_general_host_tma
-.visible .entry mm_kernel_general_host_tma(
-	.param .align 64 .b8 mm_kernel_general_host_tma_param_0[128],
-	.param .u32 mm_kernel_general_host_tma_param_1,
-	.param .u32 mm_kernel_general_host_tma_param_2,
-	.param .u64 mm_kernel_general_host_tma_param_3,
-	.param .u64 mm_kernel_general_host_tma_param_4,
-	.param .align 64 .b8 mm_kernel_general_host_tma_param_5[128],
-	.param .u32 mm_kernel_general_host_tma_param_6,
-	.param .u32 mm_kernel_general_host_tma_param_7,
-	.param .u64 mm_kernel_general_host_tma_param_8,
-	.param .u64 mm_kernel_general_host_tma_param_9,
-	.param .align 64 .b8 mm_kernel_general_host_tma_param_10[128],
-	.param .u32 mm_kernel_general_host_tma_param_11,
-	.param .u32 mm_kernel_general_host_tma_param_12,
-	.param .u64 mm_kernel_general_host_tma_param_13,
-	.param .u64 mm_kernel_general_host_tma_param_14,
-	.param .u32 mm_kernel_general_host_tma_param_15,
-	.param .u32 mm_kernel_general_host_tma_param_16,
-	.param .u32 mm_kernel_general_host_tma_param_17,
-	.param .u32 mm_kernel_general_host_tma_param_18,
-	.param .u32 mm_kernel_general_host_tma_param_19,
-	.param .u32 mm_kernel_general_host_tma_param_20,
-	.param .u8 mm_kernel_general_host_tma_param_21,
-	.param .u64 .ptr .global .align 1 mm_kernel_general_host_tma_param_22
+                                        // @mm_kernel_general_device_tma
+.visible .entry mm_kernel_general_device_tma(
+	.param .u64 .ptr .global .align 1 mm_kernel_general_device_tma_param_0,
+	.param .u64 .ptr .global .align 1 mm_kernel_general_device_tma_param_1,
+	.param .u64 .ptr .global .align 1 mm_kernel_general_device_tma_param_2,
+	.param .u32 mm_kernel_general_device_tma_param_3,
+	.param .u32 mm_kernel_general_device_tma_param_4,
+	.param .u32 mm_kernel_general_device_tma_param_5,
+	.param .u32 mm_kernel_general_device_tma_param_6,
+	.param .u32 mm_kernel_general_device_tma_param_7,
+	.param .u32 mm_kernel_general_device_tma_param_8,
+	.param .u64 .ptr .global .align 1 mm_kernel_general_device_tma_param_9
 )
-.reqntid 256
+.reqntid 128
 {
-	.reg .pred 	%p<54>;
-	.reg .b32 	%r<387>;
-	.reg .b64 	%rd<16>;
+	.reg .pred 	%p<104>;
+	.reg .b32 	%r<778>;
+	.reg .b64 	%rd<107>;
 
 // %bb.0:
-	mov.b64 	%rd10, mm_kernel_general_host_tma_param_0;
-	mov.b64 	%rd11, mm_kernel_general_host_tma_param_10;
-	cvta.param.u64 	%rd15, %rd11;
-	mov.b64 	%rd12, mm_kernel_general_host_tma_param_5;
-	cvta.param.u64 	%rd2, %rd12;
-	cvta.param.u64 	%rd3, %rd10;
-	mov.u32 	%r79, %ctaid.x;
-	ld.param.b32 	%r80, [mm_kernel_general_host_tma_param_15];
-	add.s32 	%r81, %r80, 31;
-	shr.s32 	%r82, %r81, 31;
-	shr.u32 	%r83, %r82, 27;
-	add.s32 	%r84, %r81, %r83;
-	shr.s32 	%r85, %r84, 5;
-	ld.param.b32 	%r86, [mm_kernel_general_host_tma_param_16];
-	add.s32 	%r87, %r86, 31;
-	shr.s32 	%r88, %r87, 31;
-	shr.u32 	%r89, %r88, 27;
-	add.s32 	%r90, %r87, %r89;
-	shr.s32 	%r91, %r90, 5;
-	shl.b32 	%r93, %r91, 3;
-	div.s32 	%r94, %r79, %r93;
-	shl.b32 	%r95, %r94, 3;
-	sub.s32 	%r96, %r85, %r95;
-	min.s32 	%r97, %r96, 8;
-	ld.param.b32 	%r98, [mm_kernel_general_host_tma_param_17];
-	rem.s32 	%r99, %r79, %r97;
-	add.s32 	%r100, %r95, %r99;
-	mul.lo.s32 	%r101, %r94, %r93;
-	sub.s32 	%r102, %r79, %r101;
-	div.s32 	%r103, %r102, %r97;
-	shl.b32 	%r360, %r100, 5;
-	shl.b32 	%r359, %r103, 5;
-	add.s32 	%r104, %r98, 127;
-	mov.u32 	%r4, %tid.x;
-	setp.eq.s32 	%p45, %r4, 0;
-	mov.b32 	%r108, global_smem;
-	add.s32 	%r49, %r108, 49152;
-	// begin inline asm
-	@%p45 mbarrier.init.shared::cta.b64 [%r49], 1;
-	// end inline asm
-	bar.sync 	0;
-	add.s32 	%r50, %r108, 49160;
-	// begin inline asm
-	@%p45 mbarrier.init.shared::cta.b64 [%r50], 1;
-	// end inline asm
-	bar.sync 	0;
-	add.s32 	%r51, %r108, 49168;
-	// begin inline asm
-	@%p45 mbarrier.init.shared::cta.b64 [%r51], 1;
-	// end inline asm
-	setp.gt.s32 	%p13, %r104, 127;
-	bar.sync 	0;
-	and.pred 	%p4, %p45, %p13;
-	// begin inline asm
-	@%p4 mbarrier.arrive.expect_tx.shared.b64 _, [%r49], 16384;
-	// end inline asm
-	bar.sync 	0;
-	shr.u32 	%r109, %r4, 5;
-	shfl.sync.idx.b32 	%r110, %r109, 0, 31, -1;
-	elect.sync 	%r111|%p14, -1;
-	and.pred 	%p15, %p13, %p14;
-	setp.lt.u32 	%p16, %r4, 64;
-	and.pred 	%p5, %p16, %p15;
-	and.b32 	%r112, %r110, 1;
-	shl.b32 	%r113, %r112, 12;
-	add.s32 	%r53, %r108, %r113;
-	shl.b32 	%r54, %r112, 6;
-	// begin inline asm
-	@%p5 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r53], [%rd3, {%r54, %r360}], [%r49];
-	// end inline asm
-	bar.sync 	0;
-	elect.sync 	%r114|%p17, -1;
-	and.pred 	%p18, %p13, %p17;
-	setp.lt.u32 	%p19, %r4, 32;
-	and.pred 	%p6, %p19, %p18;
-	add.s32 	%r57, %r108, 24576;
-	mov.b32 	%r385, 0;
-	// begin inline asm
-	@%p6 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r57], [%rd2, {%r359, %r385}], [%r49];
-	// end inline asm
-	setp.gt.s32 	%p20, %r104, 255;
-	bar.sync 	0;
-	and.pred 	%p7, %p45, %p20;
-	// begin inline asm
-	@%p7 mbarrier.arrive.expect_tx.shared.b64 _, [%r50], 16384;
-	// end inline asm
-	bar.sync 	0;
-	elect.sync 	%r115|%p21, -1;
-	and.pred 	%p22, %p20, %p21;
-	and.pred 	%p8, %p16, %p22;
-	add.s32 	%r62, %r53, 8192;
-	or.b32 	%r63, %r54, 128;
-	// begin inline asm
-	@%p8 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r62], [%rd3, {%r63, %r360}], [%r50];
-	// end inline asm
-	bar.sync 	0;
-	elect.sync 	%r116|%p23, -1;
-	and.pred 	%p24, %p20, %p23;
-	and.pred 	%p9, %p19, %p24;
-	add.s32 	%r66, %r108, 32768;
-	mov.b32 	%r68, 128;
-	// begin inline asm
-	@%p9 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r66], [%rd2, {%r359, %r68}], [%r50];
-	// end inline asm
-	setp.gt.s32 	%p25, %r104, 383;
-	bar.sync 	0;
-	and.pred 	%p10, %p45, %p25;
-	// begin inline asm
-	@%p10 mbarrier.arrive.expect_tx.shared.b64 _, [%r51], 16384;
-	// end inline asm
-	bar.sync 	0;
-	elect.sync 	%r117|%p26, -1;
-	and.pred 	%p27, %p25, %p26;
-	and.pred 	%p11, %p16, %p27;
-	add.s32 	%r71, %r53, 16384;
-	or.b32 	%r72, %r54, 256;
-	// begin inline asm
-	@%p11 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r71], [%rd3, {%r72, %r360}], [%r51];
-	// end inline asm
-	bar.sync 	0;
-	elect.sync 	%r118|%p28, -1;
-	and.pred 	%p29, %p25, %p28;
-	and.pred 	%p12, %p19, %p29;
-	add.s32 	%r75, %r108, 40960;
-	mov.b32 	%r77, 256;
-	// begin inline asm
-	@%p12 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r75], [%rd2, {%r359, %r77}], [%r51];
-	// end inline asm
-	and.b32 	%r7, %r4, 2;
-	setp.eq.s32 	%p53, %r7, 0;
-	@%p13 bra 	$L__BB0_2;
+	ld.param.b32 	%r151, [mm_kernel_general_device_tma_param_4];
+	ld.param.b32 	%r144, [mm_kernel_general_device_tma_param_3];
+	mov.u32 	%r118, %ctaid.x;
+	cvt.u64.u32 	%rd1, %r118;
+	add.s32 	%r119, %r144, 63;
+	shr.s32 	%r120, %r119, 31;
+	shr.u32 	%r121, %r120, 26;
+	add.s32 	%r122, %r119, %r121;
+	shr.s32 	%r123, %r122, 6;
+	add.s32 	%r124, %r151, 63;
+	shr.s32 	%r125, %r124, 31;
+	shr.u32 	%r126, %r125, 26;
+	add.s32 	%r127, %r124, %r126;
+	shr.s32 	%r128, %r127, 6;
+	shl.b32 	%r1, %r128, 3;
+	div.s32 	%r2, %r118, %r1;
+	mul.wide.s32 	%rd2, %r2, 8;
+	cvt.s64.s32 	%rd19, %r123;
+	sub.s64 	%rd20, %rd19, %rd2;
+	min.s64 	%rd3, %rd20, 8;
+	and.b64 	%rd21, %rd3, -4294967296;
+	setp.ne.s64 	%p1, %rd21, 0;
+	cvt.u32.u64 	%r708, %rd1;
+	@%p1 bra 	$L__BB0_2;
 	bra.uni 	$L__BB0_1;
-$L__BB0_2:                              // %.lr.ph
-	shr.s32 	%r105, %r104, 31;
-	shr.u32 	%r106, %r105, 25;
-	add.s32 	%r107, %r104, %r106;
-	shr.s32 	%r3, %r107, 7;
-	add.s32 	%r11, %r3, -3;
-	and.b32 	%r126, %r4, 3;
-	mul.lo.s32 	%r127, %r126, 72;
-	and.b32 	%r383, %r4, 4;
-	bfe.s32 	%r128, %r4, 2, 1;
-	and.b32 	%r129, %r128, 288;
-	xor.b32 	%r130, %r129, %r127;
-	shl.b32 	%r131, %r4, 6;
-	and.b32 	%r132, %r131, 512;
-	or.b32 	%r133, %r130, %r132;
-	shr.u32 	%r134, %r4, 1;
-	and.b32 	%r135, %r134, 8;
-	xor.b32 	%r136, %r133, %r135;
-	shl.b32 	%r137, %r4, 3;
-	and.b32 	%r138, %r137, 1024;
-	or.b32 	%r13, %r136, %r138;
-	xor.b32 	%r14, %r13, 16;
-	xor.b32 	%r15, %r13, 32;
-	xor.b32 	%r16, %r13, 48;
-	or.b32 	%r17, %r13, 2048;
-	xor.b32 	%r18, %r13, 2064;
-	xor.b32 	%r19, %r13, 2080;
-	xor.b32 	%r20, %r13, 2096;
-	shl.b32 	%r384, %r4, 5;
-	selp.b32 	%r139, 0, 72, %p53;
-	and.b32 	%r140, %r128, 144;
-	and.b32 	%r141, %r384, 800;
-	or.b32 	%r142, %r141, %r139;
-	or.b32 	%r143, %r142, %r140;
-	shr.u32 	%r144, %r4, 2;
-	and.b32 	%r382, %r144, 24;
-	xor.b32 	%r145, %r143, %r382;
-	shl.b32 	%r146, %r145, 1;
-	add.s32 	%r148, %r108, %r146;
-	add.s32 	%r23, %r148, 24576;
-	mov.b32 	%r377, 0f00000000;
-	mov.b32 	%r376, 2;
-	mov.b32 	%r375, -1;
-	mov.b32 	%r374, 0;
-	mov.b32 	%r373, 384;
-	shl.b32 	%r340, %r14, 1;
-	shl.b32 	%r341, %r15, 1;
-	shl.b32 	%r342, %r16, 1;
-	shl.b32 	%r343, %r17, 1;
-	shl.b32 	%r344, %r18, 1;
-	shl.b32 	%r345, %r19, 1;
-	shl.b32 	%r346, %r20, 1;
-	mov.b32 	%r378, %r377;
-	mov.b32 	%r379, %r377;
-	mov.b32 	%r380, %r377;
-	mov.b32 	%r381, %r374;
-$L__BB0_3:                              // =>This Inner Loop Header: Depth=1
-	setp.lt.s32 	%p37, %r381, %r11;
-	add.s32 	%r332, %r375, 1;
-	setp.gt.s32 	%p38, %r332, 2;
-	selp.b32 	%r375, 0, %r332, %p38;
-	selp.b32 	%r333, 1, 0, %p38;
-	xor.b32 	%r374, %r374, %r333;
-	shl.b32 	%r334, %r375, 3;
-	add.s32 	%r149, %r49, %r334;
+$L__BB0_2:
+	rem.s64 	%rd105, %rd1, %rd3;
+	bra.uni 	$L__BB0_3;
+$L__BB0_1:
+	cvt.u32.u64 	%r130, %rd3;
+	rem.u32 	%r132, %r708, %r130;
+	cvt.u64.u32 	%rd105, %r132;
+$L__BB0_3:
+	ld.param.b64 	%rd18, [mm_kernel_general_device_tma_param_9];
+	ld.param.b32 	%r143, [mm_kernel_general_device_tma_param_5];
+	ld.param.b64 	%rd17, [mm_kernel_general_device_tma_param_2];
+	ld.param.b64 	%rd16, [mm_kernel_general_device_tma_param_1];
+	ld.param.b64 	%rd15, [mm_kernel_general_device_tma_param_0];
+	add.s64 	%rd7, %rd2, %rd105;
+	mul.lo.s32 	%r134, %r2, %r1;
+	sub.s32 	%r135, %r708, %r134;
+	cvt.u64.u32 	%rd8, %r135;
+	@%p1 bra 	$L__BB0_5;
+	bra.uni 	$L__BB0_4;
+$L__BB0_5:
+	div.s64 	%rd106, %rd8, %rd3;
+	bra.uni 	$L__BB0_6;
+$L__BB0_4:
+	cvt.u32.u64 	%r136, %rd3;
+	cvt.u32.u64 	%r137, %rd8;
+	div.u32 	%r138, %r137, %r136;
+	cvt.u64.u32 	%rd106, %r138;
+$L__BB0_6:
+	mov.u32 	%r196, %ctaid.y;
+	mov.u32 	%r197, %ctaid.z;
+	mov.u32 	%r198, %nctaid.x;
+	mov.u32 	%r199, %nctaid.y;
+	mad.lo.s32 	%r200, %r197, %r199, %r196;
+	mad.lo.s32 	%r201, %r200, %r198, %r708;
+	mul.lo.s32 	%r202, %r201, 384;
+	cvt.s64.s32 	%rd83, %r202;
+	add.s64 	%rd38, %rd18, %rd83;
+	mul.wide.s32 	%rd31, %r143, 2;
+	mov.u32 	%r3, %tid.x;
+	setp.lt.u32 	%p3, %r3, 32;
+	shl.b32 	%r203, %r3, 2;
+	mov.b32 	%r168, global_smem;
+	add.s32 	%r139, %r168, %r203;
+	mov.b32 	%r710, 0;
+	// begin inline asm
+	@%p3 st.shared.b32 [ %r139 + 0 ], %r710;
+	// end inline asm
+	bar.warp.sync 	-1;
+	setp.eq.s32 	%p97, %r3, 0;
+	cvt.u64.u32 	%rd23, %r168;
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_address.shared::cta.b1024.b64 [ %rd23 + 0 ], %rd15;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.rank.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1;
+	// end inline asm
+	mov.b32 	%r141, 64;
+	// begin inline asm
+	@%p97 tensormap.replace.tile.box_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r141;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.box_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r141;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r143;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r144;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_stride.shared::cta.b1024.b64 [ %rd23 + 0 ], 0x0, %rd31;
+	// end inline asm
+	mov.b32 	%r145, 1;
+	// begin inline asm
+	@%p97 tensormap.replace.tile.element_stride.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r145;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.element_stride.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r145;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.elemtype.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x6;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.interleave_layout.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.swizzle_mode.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x3;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.fill_mode.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0;
+	// end inline asm
+	// begin inline asm
+	@%p3 tensormap.cp_fenceproxy.global.shared::cta.tensormap::generic.release.gpu.sync.aligned [ %rd38 + 0 ], [ %rd23 + 0 ], 0x80;
+	// end inline asm
+	// begin inline asm
+	@%p3 fence.proxy.tensormap::generic.acquire.gpu [ %rd38 + 0 ], 0x80;
+	// end inline asm
+	bar.sync 	0;
+	cvta.global.u64 	%rd77, %rd38;
+	add.s32 	%r204, %r202, 128;
+	cvt.s64.s32 	%rd84, %r204;
+	add.s64 	%rd56, %rd18, %rd84;
+	mul.wide.s32 	%rd67, %r151, 2;
+	bar.sync 	0;
+	// begin inline asm
+	@%p3 st.shared.b32 [ %r139 + 0 ], %r710;
+	// end inline asm
+	bar.warp.sync 	-1;
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_address.shared::cta.b1024.b64 [ %rd23 + 0 ], %rd16;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.rank.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.box_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r141;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.box_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r141;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r151;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r143;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_stride.shared::cta.b1024.b64 [ %rd23 + 0 ], 0x0, %rd67;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.element_stride.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r145;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.element_stride.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r145;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.elemtype.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x6;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.interleave_layout.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.swizzle_mode.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x3;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.fill_mode.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0;
+	// end inline asm
+	// begin inline asm
+	@%p3 tensormap.cp_fenceproxy.global.shared::cta.tensormap::generic.release.gpu.sync.aligned [ %rd56 + 0 ], [ %rd23 + 0 ], 0x80;
+	// end inline asm
+	// begin inline asm
+	@%p3 fence.proxy.tensormap::generic.acquire.gpu [ %rd56 + 0 ], 0x80;
+	// end inline asm
+	bar.sync 	0;
+	cvta.global.u64 	%rd78, %rd56;
+	add.s32 	%r205, %r202, 256;
+	cvt.s64.s32 	%rd85, %r205;
+	add.s64 	%rd14, %rd18, %rd85;
+	bar.sync 	0;
+	// begin inline asm
+	@%p3 st.shared.b32 [ %r139 + 0 ], %r710;
+	// end inline asm
+	bar.warp.sync 	-1;
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_address.shared::cta.b1024.b64 [ %rd23 + 0 ], %rd17;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.rank.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.box_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r141;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.box_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r141;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r151;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_dim.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r144;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.global_stride.shared::cta.b1024.b64 [ %rd23 + 0 ], 0x0, %rd67;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.element_stride.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0, %r145;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.element_stride.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x1, %r145;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.elemtype.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x6;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.interleave_layout.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.swizzle_mode.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x3;
+	// end inline asm
+	// begin inline asm
+	@%p97 tensormap.replace.tile.fill_mode.shared::cta.b1024.b32 [ %rd23 + 0 ], 0x0;
+	// end inline asm
+	// begin inline asm
+	@%p3 tensormap.cp_fenceproxy.global.shared::cta.tensormap::generic.release.gpu.sync.aligned [ %rd14 + 0 ], [ %rd23 + 0 ], 0x80;
+	// end inline asm
+	// begin inline asm
+	@%p3 fence.proxy.tensormap::generic.acquire.gpu [ %rd14 + 0 ], 0x80;
+	// end inline asm
+	bar.sync 	0;
+	add.s32 	%r206, %r143, 63;
+	cvt.u32.u64 	%r210, %rd7;
+	shl.b32 	%r682, %r210, 6;
+	cvt.u32.u64 	%r211, %rd106;
+	shl.b32 	%r681, %r211, 6;
+	add.s32 	%r163, %r168, 65536;
+	// begin inline asm
+	@%p97 mbarrier.init.shared::cta.b64 [%r163], 1;
+	// end inline asm
+	bar.sync 	0;
+	add.s32 	%r164, %r168, 65544;
+	// begin inline asm
+	@%p97 mbarrier.init.shared::cta.b64 [%r164], 1;
+	// end inline asm
+	bar.sync 	0;
+	add.s32 	%r165, %r168, 65552;
+	// begin inline asm
+	@%p97 mbarrier.init.shared::cta.b64 [%r165], 1;
+	// end inline asm
+	bar.sync 	0;
+	add.s32 	%r166, %r168, 65560;
+	// begin inline asm
+	@%p97 mbarrier.init.shared::cta.b64 [%r166], 1;
+	// end inline asm
+	setp.lt.s32 	%p64, %r206, 64;
+	setp.gt.s32 	%p65, %r206, 63;
+	bar.sync 	0;
+	and.pred 	%p55, %p97, %p65;
+	// begin inline asm
+	@%p55 mbarrier.arrive.expect_tx.shared.b64 _, [%r163], 16384;
+	// end inline asm
+	bar.sync 	0;
+	elect.sync 	%r212|%p66, -1;
+	and.pred 	%p67, %p65, %p66;
+	and.pred 	%p56, %p3, %p67;
+	// begin inline asm
+	@%p56 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r168], [%rd77, {%r710, %r682}], [%r163];
+	// end inline asm
+	bar.sync 	0;
+	elect.sync 	%r213|%p68, -1;
+	and.pred 	%p69, %p65, %p68;
+	and.pred 	%p57, %p3, %p69;
+	add.s32 	%r172, %r168, 32768;
+	// begin inline asm
+	@%p57 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r172], [%rd78, {%r681, %r710}], [%r163];
+	// end inline asm
+	setp.gt.s32 	%p70, %r206, 127;
+	bar.sync 	0;
+	and.pred 	%p58, %p97, %p70;
+	// begin inline asm
+	@%p58 mbarrier.arrive.expect_tx.shared.b64 _, [%r164], 16384;
+	// end inline asm
+	bar.sync 	0;
+	elect.sync 	%r214|%p71, -1;
+	and.pred 	%p72, %p70, %p71;
+	and.pred 	%p59, %p3, %p72;
+	add.s32 	%r177, %r168, 8192;
+	// begin inline asm
+	@%p59 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r177], [%rd77, {%r141, %r682}], [%r164];
+	// end inline asm
+	bar.sync 	0;
+	elect.sync 	%r215|%p73, -1;
+	and.pred 	%p74, %p70, %p73;
+	and.pred 	%p60, %p3, %p74;
+	add.s32 	%r181, %r168, 40960;
+	// begin inline asm
+	@%p60 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r181], [%rd78, {%r681, %r141}], [%r164];
+	// end inline asm
+	setp.gt.s32 	%p75, %r206, 191;
+	bar.sync 	0;
+	and.pred 	%p61, %p97, %p75;
+	// begin inline asm
+	@%p61 mbarrier.arrive.expect_tx.shared.b64 _, [%r165], 16384;
+	// end inline asm
+	bar.sync 	0;
+	elect.sync 	%r216|%p76, -1;
+	and.pred 	%p77, %p75, %p76;
+	and.pred 	%p62, %p3, %p77;
+	add.s32 	%r186, %r168, 16384;
+	mov.b32 	%r187, 128;
+	// begin inline asm
+	@%p62 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r186], [%rd77, {%r187, %r682}], [%r165];
+	// end inline asm
+	bar.sync 	0;
+	elect.sync 	%r217|%p78, -1;
+	and.pred 	%p79, %p75, %p78;
+	and.pred 	%p63, %p3, %p79;
+	add.s32 	%r190, %r168, 49152;
+	// begin inline asm
+	@%p63 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r190], [%rd78, {%r681, %r187}], [%r165];
+	// end inline asm
+	mov.b32 	%r713, 0f00000000;
+	mov.b32 	%r714, %r713;
+	mov.b32 	%r715, %r713;
+	mov.b32 	%r716, %r713;
+	mov.b32 	%r717, %r713;
+	mov.b32 	%r718, %r713;
+	mov.b32 	%r719, %r713;
+	mov.b32 	%r720, %r713;
+	mov.b32 	%r721, %r713;
+	mov.b32 	%r722, %r713;
+	mov.b32 	%r723, %r713;
+	mov.b32 	%r724, %r713;
+	mov.b32 	%r725, %r713;
+	mov.b32 	%r726, %r713;
+	mov.b32 	%r727, %r713;
+	mov.b32 	%r728, %r713;
+	mov.b32 	%r729, %r713;
+	mov.b32 	%r730, %r713;
+	mov.b32 	%r731, %r713;
+	mov.b32 	%r732, %r713;
+	mov.b32 	%r733, %r713;
+	mov.b32 	%r734, %r713;
+	mov.b32 	%r735, %r713;
+	mov.b32 	%r736, %r713;
+	mov.b32 	%r737, %r713;
+	mov.b32 	%r738, %r713;
+	mov.b32 	%r739, %r713;
+	mov.b32 	%r740, %r713;
+	mov.b32 	%r741, %r713;
+	mov.b32 	%r742, %r713;
+	mov.b32 	%r743, %r713;
+	mov.b32 	%r744, %r713;
+	@%p64 bra 	$L__BB0_9;
+// %bb.7:                               // %.lr.ph
+	shr.s32 	%r207, %r206, 31;
+	shr.u32 	%r208, %r207, 26;
+	add.s32 	%r209, %r206, %r208;
+	shr.s32 	%r4, %r209, 6;
+	add.s32 	%r7, %r4, -3;
+	shr.u32 	%r8, %r3, 5;
+	mov.b32 	%r713, 0f00000000;
+	mov.b32 	%r712, 2;
+	mov.b32 	%r711, -1;
+	mov.b32 	%r709, 192;
+	mov.b32 	%r714, %r713;
+	mov.b32 	%r715, %r713;
+	mov.b32 	%r716, %r713;
+	mov.b32 	%r717, %r713;
+	mov.b32 	%r718, %r713;
+	mov.b32 	%r719, %r713;
+	mov.b32 	%r720, %r713;
+	mov.b32 	%r721, %r713;
+	mov.b32 	%r722, %r713;
+	mov.b32 	%r723, %r713;
+	mov.b32 	%r724, %r713;
+	mov.b32 	%r725, %r713;
+	mov.b32 	%r726, %r713;
+	mov.b32 	%r727, %r713;
+	mov.b32 	%r728, %r713;
+	mov.b32 	%r729, %r713;
+	mov.b32 	%r730, %r713;
+	mov.b32 	%r731, %r713;
+	mov.b32 	%r732, %r713;
+	mov.b32 	%r733, %r713;
+	mov.b32 	%r734, %r713;
+	mov.b32 	%r735, %r713;
+	mov.b32 	%r736, %r713;
+	mov.b32 	%r737, %r713;
+	mov.b32 	%r738, %r713;
+	mov.b32 	%r739, %r713;
+	mov.b32 	%r740, %r713;
+	mov.b32 	%r741, %r713;
+	mov.b32 	%r742, %r713;
+	mov.b32 	%r743, %r713;
+	mov.b32 	%r744, %r713;
+	mov.b32 	%r745, %r710;
+$L__BB0_8:                              // =>This Inner Loop Header: Depth=1
+	setp.lt.s32 	%p89, %r745, %r7;
+	add.s32 	%r566, %r711, 1;
+	setp.gt.s32 	%p90, %r566, 3;
+	selp.b32 	%r711, 0, %r566, %p90;
+	selp.b32 	%r567, 1, 0, %p90;
+	xor.b32 	%r710, %r710, %r567;
+	shl.b32 	%r568, %r711, 3;
+	add.s32 	%r223, %r163, %r568;
 	bar.sync 	0;
 	// begin inline asm
 	{                                                           
 	.reg .pred P1;                                              
 	waitLoop:                                                   
-	mbarrier.try_wait.parity.shared.b64 P1, [%r149], %r374;           
+	mbarrier.try_wait.parity.shared.b64 P1, [%r223], %r710;           
 	@!P1 bra.uni waitLoop;                                      
 	}                                                           
 	
 	// end inline asm
-	shl.b32 	%r337, %r375, 13;
-	add.s32 	%r338, %r108, %r337;
-	shl.b32 	%r339, %r13, 1;
-	add.s32 	%r155, %r338, %r339;
+	shl.b32 	%r571, %r711, 13;
+	add.s32 	%r516, %r172, %r571;
+	add.s32 	%r513, %r168, %r571;
+	shfl.sync.idx.b32 	%r573, %r8, 0, 31, -1;
 	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r151, %r152, %r153, %r154}, [%r155];
+	wgmma.fence.sync.aligned;
 	// end inline asm
-	add.s32 	%r160, %r338, %r340;
+	bfe.u32 	%r574, %r513, 4, 14;
+	cvt.u64.u32 	%rd96, %r574;
+	or.b64 	%rd86, %rd96, 4611686293338849280;
+	bfe.u32 	%r575, %r516, 4, 14;
+	cvt.u64.u32 	%rd97, %r575;
+	or.b64 	%rd87, %rd97, 4611686293338849280;
+	mov.pred 	%p80, -1;
 	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r156, %r157, %r158, %r159}, [%r160];
+	wgmma.mma_async.sync.aligned.m64n64k16.f32.f16.f16 {%r713,%r714,%r715,%r716,%r717,%r718,%r719,%r720,%r721,%r722,%r723,%r724,%r725,%r726,%r727,%r728,%r729,%r730,%r731,%r732,%r733,%r734,%r735,%r736,%r737,%r738,%r739,%r740,%r741,%r742,%r743,%r744}, %rd86, %rd87, %p80, 1, 1, 0, 1;
 	// end inline asm
-	add.s32 	%r165, %r338, %r341;
+	add.s32 	%r576, %r513, 32;
+	bfe.u32 	%r577, %r576, 4, 14;
+	cvt.u64.u32 	%rd98, %r577;
+	or.b64 	%rd88, %rd98, 4611686293338849280;
+	add.s32 	%r578, %r516, 2048;
+	bfe.u32 	%r579, %r578, 4, 14;
+	cvt.u64.u32 	%rd99, %r579;
+	or.b64 	%rd89, %rd99, 4611686293338849280;
 	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r161, %r162, %r163, %r164}, [%r165];
+	wgmma.mma_async.sync.aligned.m64n64k16.f32.f16.f16 {%r713,%r714,%r715,%r716,%r717,%r718,%r719,%r720,%r721,%r722,%r723,%r724,%r725,%r726,%r727,%r728,%r729,%r730,%r731,%r732,%r733,%r734,%r735,%r736,%r737,%r738,%r739,%r740,%r741,%r742,%r743,%r744}, %rd88, %rd89, %p80, 1, 1, 0, 1;
 	// end inline asm
-	add.s32 	%r170, %r338, %r342;
+	add.s32 	%r580, %r513, 64;
+	bfe.u32 	%r581, %r580, 4, 14;
+	cvt.u64.u32 	%rd100, %r581;
+	or.b64 	%rd90, %rd100, 4611686293338849280;
+	add.s32 	%r582, %r516, 4096;
+	bfe.u32 	%r583, %r582, 4, 14;
+	cvt.u64.u32 	%rd101, %r583;
+	or.b64 	%rd91, %rd101, 4611686293338849280;
 	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r166, %r167, %r168, %r169}, [%r170];
+	wgmma.mma_async.sync.aligned.m64n64k16.f32.f16.f16 {%r713,%r714,%r715,%r716,%r717,%r718,%r719,%r720,%r721,%r722,%r723,%r724,%r725,%r726,%r727,%r728,%r729,%r730,%r731,%r732,%r733,%r734,%r735,%r736,%r737,%r738,%r739,%r740,%r741,%r742,%r743,%r744}, %rd90, %rd91, %p80, 1, 1, 0, 1;
 	// end inline asm
-	add.s32 	%r175, %r338, %r343;
+	add.s32 	%r584, %r513, 96;
+	bfe.u32 	%r585, %r584, 4, 14;
+	cvt.u64.u32 	%rd102, %r585;
+	or.b64 	%rd92, %rd102, 4611686293338849280;
+	add.s32 	%r586, %r516, 6144;
+	bfe.u32 	%r587, %r586, 4, 14;
+	cvt.u64.u32 	%rd103, %r587;
+	or.b64 	%rd93, %rd103, 4611686293338849280;
 	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r171, %r172, %r173, %r174}, [%r175];
-	// end inline asm
-	add.s32 	%r180, %r338, %r344;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r176, %r177, %r178, %r179}, [%r180];
-	// end inline asm
-	add.s32 	%r185, %r338, %r345;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r181, %r182, %r183, %r184}, [%r185];
-	// end inline asm
-	add.s32 	%r190, %r338, %r346;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.shared.b16 {%r186, %r187, %r188, %r189}, [%r190];
-	// end inline asm
-	add.s32 	%r195, %r23, %r337;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.trans.shared.b16 {%r191, %r192, %r193, %r194}, [%r195];
-	// end inline asm
-	add.s32 	%r200, %r195, 2048;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.trans.shared.b16 {%r196, %r197, %r198, %r199}, [%r200];
-	// end inline asm
-	add.s32 	%r205, %r195, 4096;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.trans.shared.b16 {%r201, %r202, %r203, %r204}, [%r205];
-	// end inline asm
-	add.s32 	%r210, %r195, 6144;
-	// begin inline asm
-	ldmatrix.sync.aligned.m8n8.x4.trans.shared.b16 {%r206, %r207, %r208, %r209}, [%r210];
-	// end inline asm
-	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r151, %r152, %r153, %r154 }, { %r191, %r192 }, { %r377, %r378, %r379, %r380 };
+	wgmma.mma_async.sync.aligned.m64n64k16.f32.f16.f16 {%r713,%r714,%r715,%r716,%r717,%r718,%r719,%r720,%r721,%r722,%r723,%r724,%r725,%r726,%r727,%r728,%r729,%r730,%r731,%r732,%r733,%r734,%r735,%r736,%r737,%r738,%r739,%r740,%r741,%r742,%r743,%r744}, %rd92, %rd93, %p80, 1, 1, 0, 1;
 	// end inline asm
 	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r156, %r157, %r158, %r159 }, { %r193, %r194 }, { %r377, %r378, %r379, %r380 };
+	wgmma.commit_group.sync.aligned;
 	// end inline asm
+	mov.b32 	%r514, 0;
+	mov.b32 	%r515, %r514;
+	mov.b32 	%r517, %r514;
+	mov.b32 	%r518, %r514;
 	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r161, %r162, %r163, %r164 }, { %r196, %r197 }, { %r377, %r378, %r379, %r380 };
+	// wait for regs: %r713,%r714,%r715,%r716,%r717,%r718,%r719,%r720,%r721,%r722,%r723,%r724,%r725,%r726,%r727,%r728,%r729,%r730,%r731,%r732,%r733,%r734,%r735,%r736,%r737,%r738,%r739,%r740,%r741,%r742,%r743,%r744,%r513,%r514,%r515,%r516,%r517,%r518
+	wgmma.wait_group.sync.aligned 1;
 	// end inline asm
-	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r166, %r167, %r168, %r169 }, { %r198, %r199 }, { %r377, %r378, %r379, %r380 };
-	// end inline asm
-	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r171, %r172, %r173, %r174 }, { %r201, %r202 }, { %r377, %r378, %r379, %r380 };
-	// end inline asm
-	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r176, %r177, %r178, %r179 }, { %r203, %r204 }, { %r377, %r378, %r379, %r380 };
-	// end inline asm
-	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r181, %r182, %r183, %r184 }, { %r206, %r207 }, { %r377, %r378, %r379, %r380 };
-	// end inline asm
-	// begin inline asm
-	mma.sync.aligned.m16n8k16.row.col.f32.f16.f16.f32 { %r377, %r378, %r379, %r380 }, { %r186, %r187, %r188, %r189 }, { %r208, %r209 }, { %r377, %r378, %r379, %r380 };
-	// end inline asm
-	add.s32 	%r347, %r376, 1;
-	setp.gt.s32 	%p39, %r347, 2;
-	selp.b32 	%r376, 0, %r347, %p39;
-	shl.b32 	%r348, %r376, 3;
-	add.s32 	%r323, %r49, %r348;
+	add.s32 	%r588, %r712, 1;
+	setp.gt.s32 	%p91, %r588, 3;
+	selp.b32 	%r712, 0, %r588, %p91;
+	shl.b32 	%r589, %r712, 3;
+	add.s32 	%r557, %r163, %r589;
 	bar.sync 	0;
-	and.pred 	%p31, %p45, %p37;
+	and.pred 	%p84, %p97, %p89;
 	// begin inline asm
-	@%p31 mbarrier.arrive.expect_tx.shared.b64 _, [%r323], 16384;
+	@%p84 mbarrier.arrive.expect_tx.shared.b64 _, [%r557], 16384;
 	// end inline asm
+	shl.b32 	%r590, %r712, 13;
+	add.s32 	%r558, %r168, %r590;
 	bar.sync 	0;
-	elect.sync 	%r349|%p40, -1;
-	and.pred 	%p41, %p37, %p40;
-	and.pred 	%p32, %p16, %p41;
-	shl.b32 	%r350, %r376, 13;
-	add.s32 	%r324, %r53, %r350;
-	add.s32 	%r325, %r54, %r373;
+	elect.sync 	%r591|%p92, -1;
+	and.pred 	%p93, %p89, %p92;
+	and.pred 	%p85, %p3, %p93;
 	// begin inline asm
-	@%p32 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r324], [%rd3, {%r325, %r360}], [%r323];
+	@%p85 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r558], [%rd77, {%r709, %r682}], [%r557];
 	// end inline asm
-	add.s32 	%r351, %r108, %r350;
-	add.s32 	%r328, %r351, 24576;
+	add.s32 	%r562, %r172, %r590;
 	bar.sync 	0;
-	elect.sync 	%r352|%p42, -1;
-	and.pred 	%p43, %p37, %p42;
-	and.pred 	%p33, %p19, %p43;
+	elect.sync 	%r592|%p94, -1;
+	and.pred 	%p95, %p89, %p94;
+	and.pred 	%p86, %p3, %p95;
 	// begin inline asm
-	@%p33 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r328], [%rd2, {%r359, %r373}], [%r323];
+	@%p86 cp.async.bulk.tensor.2d.shared::cluster.global.mbarrier::complete_tx::bytes [%r562], [%rd78, {%r681, %r709}], [%r557];
 	// end inline asm
-	add.s32 	%r381, %r381, 1;
-	add.s32 	%r373, %r373, 128;
-	setp.ne.s32 	%p44, %r3, %r381;
-	@%p44 bra 	$L__BB0_3;
-// %bb.4:                               // %._crit_edge.loopexit
-	cvt.rn.f16x2.f32 	%r386, %r378, %r377;
-	cvt.rn.f16x2.f32 	%r385, %r380, %r379;
-	bra.uni 	$L__BB0_5;
-$L__BB0_1:                              // %.._crit_edge_crit_edge
-	shl.b32 	%r384, %r4, 5;
-	and.b32 	%r383, %r4, 4;
-	shr.u32 	%r120, %r4, 2;
-	and.b32 	%r382, %r120, 24;
-	mov.b32 	%r386, %r385;
-$L__BB0_5:                              // %._crit_edge
-	bar.sync 	0;
+	add.s32 	%r745, %r745, 1;
+	add.s32 	%r709, %r709, 64;
+	setp.ne.s32 	%p96, %r4, %r745;
+	@%p96 bra 	$L__BB0_8;
+$L__BB0_9:                              // %._crit_edge
+	cvta.global.u64 	%rd104, %rd14;
 	// begin inline asm
-	@%p45 mbarrier.inval.shared::cta.b64 [%r49];
+	// wait for regs: %r713,%r714,%r715,%r716,%r717,%r718,%r719,%r720,%r721,%r722,%r723,%r724,%r725,%r726,%r727,%r728,%r729,%r730,%r731,%r732,%r733,%r734,%r735,%r736,%r737,%r738,%r739,%r740,%r741,%r742,%r743,%r744
+	wgmma.wait_group.sync.aligned 0;
 	// end inline asm
 	bar.sync 	0;
 	// begin inline asm
-	@%p45 mbarrier.inval.shared::cta.b64 [%r50];
+	@%p97 mbarrier.inval.shared::cta.b64 [%r163];
 	// end inline asm
 	bar.sync 	0;
 	// begin inline asm
-	@%p45 mbarrier.inval.shared::cta.b64 [%r51];
+	@%p97 mbarrier.inval.shared::cta.b64 [%r164];
 	// end inline asm
-	selp.b32 	%r362, 0, 72, %p53;
-	setp.eq.s32 	%p51, %r383, 0;
-	selp.b32 	%r363, 0, 144, %p51;
-	and.b32 	%r364, %r384, 288;
-	or.b32 	%r365, %r364, %r362;
-	or.b32 	%r366, %r365, %r363;
-	shl.b32 	%r367, %r4, 2;
-	and.b32 	%r368, %r367, 512;
-	or.b32 	%r369, %r368, %r382;
-	xor.b32 	%r370, %r369, %r366;
-	shl.b32 	%r371, %r370, 1;
-	add.s32 	%r356, %r108, %r371;
+	bar.sync 	0;
 	// begin inline asm
-	stmatrix.sync.aligned.m8n8.x2.shared.b16 [%r356], {%r386, %r385};
+	@%p97 mbarrier.inval.shared::cta.b64 [%r165];
+	// end inline asm
+	bar.sync 	0;
+	// begin inline asm
+	@%p97 mbarrier.inval.shared::cta.b64 [%r166];
+	// end inline asm
+	cvt.rn.f16x2.f32 	%r662, %r714, %r713;
+	cvt.rn.f16x2.f32 	%r663, %r716, %r715;
+	cvt.rn.f16x2.f32 	%r664, %r718, %r717;
+	cvt.rn.f16x2.f32 	%r665, %r720, %r719;
+	cvt.rn.f16x2.f32 	%r667, %r722, %r721;
+	cvt.rn.f16x2.f32 	%r668, %r724, %r723;
+	cvt.rn.f16x2.f32 	%r669, %r726, %r725;
+	cvt.rn.f16x2.f32 	%r670, %r728, %r727;
+	cvt.rn.f16x2.f32 	%r672, %r730, %r729;
+	cvt.rn.f16x2.f32 	%r673, %r732, %r731;
+	cvt.rn.f16x2.f32 	%r674, %r734, %r733;
+	cvt.rn.f16x2.f32 	%r675, %r736, %r735;
+	cvt.rn.f16x2.f32 	%r677, %r738, %r737;
+	cvt.rn.f16x2.f32 	%r678, %r740, %r739;
+	cvt.rn.f16x2.f32 	%r679, %r742, %r741;
+	cvt.rn.f16x2.f32 	%r680, %r744, %r743;
+	and.b32 	%r684, %r3, 3;
+	mul.lo.s32 	%r685, %r684, 72;
+	bfe.s32 	%r686, %r3, 2, 1;
+	and.b32 	%r687, %r686, 288;
+	xor.b32 	%r688, %r687, %r685;
+	shl.b32 	%r689, %r3, 6;
+	and.b32 	%r690, %r689, 512;
+	or.b32 	%r691, %r688, %r690;
+	shr.u32 	%r692, %r3, 1;
+	and.b32 	%r693, %r692, 8;
+	xor.b32 	%r694, %r691, %r693;
+	shl.b32 	%r695, %r3, 5;
+	and.b32 	%r696, %r695, 1024;
+	or.b32 	%r697, %r694, %r696;
+	and.b32 	%r698, %r695, 2048;
+	or.b32 	%r699, %r697, %r698;
+	shl.b32 	%r700, %r699, 1;
+	add.s32 	%r661, %r168, %r700;
+	// begin inline asm
+	stmatrix.sync.aligned.m8n8.x4.shared.b16 [%r661], {%r662, %r663, %r664, %r665};
+	// end inline asm
+	xor.b32 	%r701, %r699, 16;
+	shl.b32 	%r702, %r701, 1;
+	add.s32 	%r666, %r168, %r702;
+	// begin inline asm
+	stmatrix.sync.aligned.m8n8.x4.shared.b16 [%r666], {%r667, %r668, %r669, %r670};
+	// end inline asm
+	xor.b32 	%r703, %r699, 32;
+	shl.b32 	%r704, %r703, 1;
+	add.s32 	%r671, %r168, %r704;
+	// begin inline asm
+	stmatrix.sync.aligned.m8n8.x4.shared.b16 [%r671], {%r672, %r673, %r674, %r675};
+	// end inline asm
+	xor.b32 	%r705, %r699, 48;
+	shl.b32 	%r706, %r705, 1;
+	add.s32 	%r676, %r168, %r706;
+	// begin inline asm
+	stmatrix.sync.aligned.m8n8.x4.shared.b16 [%r676], {%r677, %r678, %r679, %r680};
 	// end inline asm
 	// begin inline asm
 	fence.proxy.async.shared::cta;
 	// end inline asm
 	bar.sync 	0;
-	elect.sync 	%r372|%p52, -1;
-	and.pred 	%p48, %p19, %p52;
+	elect.sync 	%r707|%p103, -1;
+	and.pred 	%p101, %p3, %p103;
 	// begin inline asm
-	@%p48 cp.async.bulk.tensor.2d.global.shared::cta.bulk_group [%rd15, {%r359, %r360}], [%r108];
+	@%p101 cp.async.bulk.tensor.2d.global.shared::cta.bulk_group [%rd104, {%r681, %r682}], [%r168];
 	// end inline asm
 	cp.async.bulk.commit_group;
 	cp.async.bulk.wait_group.read 	0;
