@@ -1,3 +1,4 @@
+import sys
 from typing import Any, Callable
 
 import torch
@@ -19,7 +20,8 @@ try:
 except Exception as e:
     print(
         f"Failed to import mm_host_tma, mm_device_tma due to {e}"
-        f" this is expected when running with triton <= 3.3"
+        f" this is expected when running with triton <= 3.3",
+        file=sys.stderr,
     )
     mm_host_tma = None
     mm_device_tma = None
