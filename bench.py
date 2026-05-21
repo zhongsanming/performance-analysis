@@ -16,7 +16,7 @@ try:
     )
 
     COLUMNS = ("no_tma", "dev_tma", "host_tma")
-except ImportError as e:
+except Exception as e:
     print(
         f"Failed to import mm_host_tma, mm_device_tma due to {e}"
         f" this is expected when running with triton <= 3.3"
