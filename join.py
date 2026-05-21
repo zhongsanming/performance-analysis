@@ -20,7 +20,9 @@ def _read(f: Path) -> tuple[list[str], list[dict[str, str]]]:
             raise ValueError("No header is found, can't perform join.")
 
         keys = header[1:].strip().split()
-        return keys, [_to_dict(keys, [v.strip() for v in line.strip().split()]) for line in fp]
+        return keys, [
+            _to_dict(keys, [v.strip() for v in line.strip().split()]) for line in fp
+        ]
 
 
 @click.command()
@@ -35,13 +37,16 @@ def main(ctx: click.Context, inputs: tuple[Path, ...]):
     keys = tuple(k for k, _ in data)
     total_order = list(e for k in keys for e in k)
     values = tuple(v for _, v in data)
-    common_keys = sorted(reduce(set[str].intersection, map(set, (k for k, _ in data))), key=lambda k: total_order.index(k))
+    common_keys = sorted(
+        reduce(set[str].intersection, map(set, (k for k, _ in data))),
+        key=lambda k: total_order.index(k),
+    )
     # value_keys = sorted(reduce(set[str].union, map(set, (k for k, _ in data))) - set(common_keys), key=lambda k: total_order.index(k))
     # values = tuple(sorted(value, key=lambda d: _key(d, common_keys)) for value in values)
 
     print("#", end="")
-    for idx, key in enumerate(common_keys):
-        print(f"\t{key:>8}" if idx == 0 else f"\t{key:>8}", end="")
+    for key in common_keys:
+        print(f"\t{key:>8}", end="")
     for keys, _ in data:
         for k in keys:
             if k in common_keys:
@@ -53,16 +58,14 @@ def main(ctx: click.Context, inputs: tuple[Path, ...]):
         common = [_key(d, common_keys) for d in dicts]
         assert len(set(",".join(x) for x in common)) == 1
         key = common[0]
-        for i, k in enumerate(key):
-            print(f"\t{k:>8}" if i == 0 else f"\t{k:>8}", end="")
+        for k in key:
+            print(f"\t{k:>8}", end="")
         for d in dicts:
             for k, v in d.items():
                 if k in common_keys:
                     continue
                 print(f"\t{v:>8}", end="")
         print()
-    
-        
 
     # f0, f1 = sys.argv[1:]
     # d0, d1 = _read(f0), _read(f1)
