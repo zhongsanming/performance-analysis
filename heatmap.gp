@@ -4,13 +4,13 @@
 # Data columns: M  K  N  NOTMA  DEVICETMA  HOSTTMA (no header)
 # ==========================================================
 
-# Configuration
-datafile = "data.txt"
-
 # Which dimension to fix? Choose "M", "N", or "K"
-if (ARGC >= 1) fixed_dim = ARG1 else fixed_dim = "K"
+fixed_dim = (ARGC >= 1) ? ARG1 : "K"
+datafile = (ARGC >= 2) ? ARG2 : "data.txt"
+
 fixed_list = "128 256 512 1024 2048 4096"
 
+# unjoined data
 # impl_names = "V34 DEV-TMA HOST-TMA"
 # impl_cols = "5 6 7"               # column numbers for each implementation
 impl_names = "V33 V34 DEV-TMA HOST-TMA"

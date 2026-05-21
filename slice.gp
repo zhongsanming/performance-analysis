@@ -4,12 +4,10 @@
 # Data columns: M  K  N  NOTMA  DEVICETMA  HOSTTMA (no header)
 # ==========================================================
 
-# Configuration
-datafile = "data.txt"
-
 # Which dimension to fix? Choose "M", "N", or "K"
-if (ARGC >= 1) fixed_dim = ARG1 else fixed_dim = "K"
-if (ARGC >= 2) fixed_val = int(ARG2) else fixed_val = 2048
+fixed_dim = (ARGC >= 1) ? ARG1 : "K"
+fixed_val = (ARGC >= 2) ? int(ARG2) : 2048
+datafile = (ARGC >= 3) ? ARG3 : "data.txt"
 
 # ------------------- Determine axes and filter based on fixed_dim -------------------
 if (fixed_dim eq "M") {
