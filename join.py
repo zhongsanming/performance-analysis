@@ -33,6 +33,7 @@ def main(ctx: click.Context, inputs: tuple[Path, ...]):
         click.echo(ctx.get_help())
         return
 
+    # we assume the order of the common keys is the same of all input files
     data = tuple(_read(inp) for inp in inputs)
     keys = tuple(k for k, _ in data)
     total_order = list(e for k in keys for e in k)
@@ -41,8 +42,6 @@ def main(ctx: click.Context, inputs: tuple[Path, ...]):
         reduce(set[str].intersection, map(set, (k for k, _ in data))),
         key=lambda k: total_order.index(k),
     )
-    # value_keys = sorted(reduce(set[str].union, map(set, (k for k, _ in data))) - set(common_keys), key=lambda k: total_order.index(k))
-    # values = tuple(sorted(value, key=lambda d: _key(d, common_keys)) for value in values)
 
     print("#", end="")
     for key in common_keys:
@@ -55,6 +54,7 @@ def main(ctx: click.Context, inputs: tuple[Path, ...]):
     print()
 
     for dicts in zip(*values):
+        dicts: tuple[dict[str, str]]
         common = [_key(d, common_keys) for d in dicts]
         assert len(set(",".join(x) for x in common)) == 1
         key = common[0]
@@ -66,21 +66,6 @@ def main(ctx: click.Context, inputs: tuple[Path, ...]):
                     continue
                 print(f"\t{v:>8}", end="")
         print()
-
-    # f0, f1 = sys.argv[1:]
-    # d0, d1 = _read(f0), _read(f1)
-    # result = dict()
-    # for (k0, v0), (k1, v1) in zip(d0.items(), d1.items()):
-    #     assert k0 == k1
-    #     result[k0] = v0 + v1
-
-    # print(
-    #     f"#{'M':>4}\t{'K':>5}\t{'N':>5}\t{'v3.3':>8}\t{'no_tma':>8}\t{'dev_tma':>8}\t{'host_tma':>8}"
-    # )
-    # for (m, k, n), [v33, no_tma, dev_tma, host_tma] in result.items():
-    #     print(
-    #         f"{m:5d}\t{k:5d}\t{n:5d}\t{v33:.6f}\t{no_tma:.6f}\t{dev_tma:.6f}\t{host_tma:.6f}"
-    #     )
 
 
 if __name__ == "__main__":
