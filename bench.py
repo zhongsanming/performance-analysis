@@ -57,7 +57,7 @@ def main(start: int, stop: int, step: int, use_cudagraph: bool):
     header += "".join(f"\t{col:>8}" for col in COLUMNS)
     print(header)
     for M, K, N in SHAPES:
-        print(f"{M:5d}\t{K:5d}\t{N:5d}")
+        print(f"{M:5d}\t{K:5d}\t{N:5d}", end="")
         # Create test tensors
         a: torch.Tensor = torch.randn(M, K, dtype=dtype, device=flag_gems.device)
         b: torch.Tensor = torch.randn(K, N, dtype=dtype, device=flag_gems.device)
