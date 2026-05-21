@@ -33,7 +33,7 @@ def bench(
     fn_bench: Callable[[Callable[[], Any]], float],
 ):
     ms = fn_bench(lambda: fn(a, b))
-    print(f"\t{ms:.6f}ms", end="")
+    print(f"\t{ms:.6f}", end="")
 
 
 @click.command()
