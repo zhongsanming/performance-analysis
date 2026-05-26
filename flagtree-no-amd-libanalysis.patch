@@ -1,0 +1,14 @@
+diff --git a/python/setup.py b/python/setup.py
+index 44442efc5..b20a6d938 100644
+--- a/python/setup.py
++++ b/python/setup.py
+@@ -460,7 +460,8 @@ class CMakeBuild(build_ext):
+             "-DTRITON_BUILD_PYTHON_MODULE=ON", "-DPython3_EXECUTABLE:FILEPATH=" + sys.executable,
+             "-DPython3_INCLUDE_DIR=" + python_include_dir,
+             "-DTRITON_CODEGEN_BACKENDS=" + ';'.join([b.name for b in backends if not b.is_external]),
+-            "-DTRITON_PLUGIN_DIRS=" + ';'.join([b.src_dir for b in backends if b.is_external])
++            "-DTRITON_PLUGIN_DIRS=" + ';'.join([b.src_dir for b in backends if b.is_external]),
++            "-DCMAKE_INSTALL_PREFIX=" + extdir,
+         ]
+         cmake_args += helper.get_backend_cmake_args(build_ext=self)
+         if lit_dir is not None:
