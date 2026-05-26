@@ -23,3 +23,5 @@ To reproduce visualization
  1. install gnuplot
 
  2. run `./visualize.ps1 data.txt` on windows
+
+Note: visualization script only support M/N/K size in 128:4097:128 range.
