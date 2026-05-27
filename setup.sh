@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VER=$1
-WORK=$PWD
-VENV=$WORK/.venv-triton-$VER
+export VER=$1
+export WORK=$PWD
+export VENV=$WORK/.venv-triton-$VER
 
 # just export proxy outside this script
 # export http_proxy=http://10.6.212.22:17890
