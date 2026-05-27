@@ -1,5 +1,7 @@
 import sys
-from typing import Any, Callable
+import json
+from pathlib import Path
+from typing import Any, Callable, Optional, List, Tuple
 
 import torch
 import triton
@@ -28,6 +30,11 @@ except Exception as e:
     COLUMNS = ("v33",)
 
 
+def load_shapes(shape_file: Path) -> List[Tuple[int, int, int]]:
+    with open(shape_file) as fp:
+        return json.load(fp)
+
+
 def bench(
     fn: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
     a: torch.Tensor,
@@ -39,11 +46,12 @@ def bench(
 
 
 @click.command()
+@click.option("--shapes", type=Optional[Path], default=None)
 @click.option("--start", type=int, default=128)
 @click.option("--stop", type=int, default=4097)
 @click.option("--step", type=int, default=128)
 @click.option("--use-cudagraph", is_flag=True)
-def main(start: int, stop: int, step: int, use_cudagraph: bool):
+def main(shapes: Optional[Path], start: int, stop: int, step: int, use_cudagraph: bool):
     fn_bench: Callable[[Callable[[], Any]], float] = (
         triton.testing.do_bench_cudagraph if use_cudagraph else triton.testing.do_bench
     )
@@ -52,7 +60,7 @@ def main(start: int, stop: int, step: int, use_cudagraph: bool):
         for k in range(start, stop, step)
         for m in range(start, stop, step)
         for n in range(start, stop, step)
-    ]
+    ] if shapes is None else load_shapes(shapes)
     dtype = torch.float16
 
     header = f"#{'M':>4}\t{'K':>5}\t{'N':>5}"
