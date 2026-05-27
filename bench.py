@@ -1,3 +1,4 @@
+import math
 import sys
 import json
 from pathlib import Path
@@ -41,12 +42,15 @@ def bench(
     b: torch.Tensor,
     fn_bench: Callable[[Callable[[], Any]], float],
 ):
-    ms = fn_bench(lambda: fn(a, b))
+    try:
+        ms = fn_bench(lambda: fn(a, b))
+    except Exception:
+        ms = math.nan
     print(f"\t{ms:.6f}", end="")
 
 
 @click.command()
-@click.option("--shapes", type=Optional[Path], default=None)
+@click.option("--shapes", type=Path, default=None)
 @click.option("--start", type=int, default=128)
 @click.option("--stop", type=int, default=4097)
 @click.option("--step", type=int, default=128)
