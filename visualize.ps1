@@ -16,3 +16,6 @@ foreach ($dim in ("K", "M", "N")) {
         gnuplot.exe -c .\slice.gp $dim $size $args
     }
 }
+
+# cuda graph compare
+gnuplot.exe -c .\cudagraph.gp ./export/data.txt

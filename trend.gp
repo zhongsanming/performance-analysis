@@ -24,10 +24,10 @@ fix2  = real(ARG3)     # second fixed value
 datafile = (ARGC >= 4) ? ARG4 : "data.txt"
 
 # --- define implementation names and column numbers -------------------
-# impl_names = "V33 V34 DEV-TMA HOST-TMA"   # adjust as needed
-# impl_cols  = "4 5 6 7"
-impl_names = "V34 DEV-TMA HOST-TMA"   # adjust as needed
-impl_cols  = "5 6 7"
+impl_names = "V33 V34 DEV-TMA HOST-TMA"   # adjust as needed
+impl_cols  = "4 5 6 7"
+# impl_names = "V34 DEV-TMA HOST-TMA"   # adjust as needed
+# impl_cols  = "5 6 7"
 
 # --- determine X column and filter condition --------------------------
 if (major eq "M") {
