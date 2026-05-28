@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VENV_PAC="$VENV/lib/python3.10/site-packages/"
+PYVER=$($VENV/bin/python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+
+VENV_PAC="$VENV/lib/python${PYVER}/site-packages/"
 LLVM_BUILD_DIR="build-mlir-$LLVM_HASH"
 
 if [ ! -d "$LLVM_PREFIX" ]; then
-  # download prebuild binary
+  # download prebuild binary, may have a different version of glibc
   # wget https://oaitriton.blob.core.windows.net/public/llvm-builds/llvm-$LLVM_HASH-ubuntu-x64.tar.gz
   # tar xpvf llvm-$LLVM_HASH-ubuntu-x64.tar.gz
   # mv llvm-$LLVM_HASH-ubuntu-x64 $HOME/.triton/llvm/
@@ -13,6 +15,7 @@ if [ ! -d "$LLVM_PREFIX" ]; then
   pushd "$WORK/llvm-project"
 
   git checkout $LLVM_HASH
+  # you'll have to install clang lld
   # export PATH=$PATH:$HOME/.local/triton/3.6/clang/bin
   # export PATH=$PATH:$HOME/.local/triton/3.6/lld/bin
   rm -rf "$LLVM_BUILD_DIR" && mkdir "$LLVM_BUILD_DIR" && cd "$LLVM_BUILD_DIR"

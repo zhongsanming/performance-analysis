@@ -18,18 +18,19 @@ git checkout triton_v$VER.x
 
 pip install -r python/requirements.txt
 
+# I'm too lazy to make it work for every case
 LLVM_HASH=$(head -c 8 cmake/llvm-hash.txt)
 export LLVM_HASH
 export LLVM_PREFIX=${HOME}/.triton/llvm/llvm-${LLVM_HASH}-ubuntu-x64
 
 bash "$WORK"/install-llvm.sh
 
-export LLVM_SYS_PATH=$LLVM_PREFIX
-export LLVM_LIBRARY_DIR=$LLVM_SYS_PATH/lib/
-export LLVM_INCLUDE_DIRS=$LLVM_SYS_PATH/include/
+export LLVM_SYSPATH=$LLVM_PREFIX
+export LLVM_LIBRARY_DIR=$LLVM_SYSPATH/lib/
+export LLVM_INCLUDE_DIRS=$LLVM_SYSPATH/include/
 export MAX_JOBS=32
 
-export PYTHONPATH=$LLVM_SYS_PATH/python_packages/mlir_core
+export PYTHONPATH=$LLVM_SYSPATH/python_packages/mlir_core
 
 rm -rf build
 

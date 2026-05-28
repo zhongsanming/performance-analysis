@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# before running this, you should have clang & lld available in your PATH
+
 export VER=$1
 export WORK=$PWD
 export VENV=$WORK/.venv-triton-$VER
@@ -17,6 +19,7 @@ if [ ! -d "$WORK/FlagTree" ]; then
   git clone https://github.com/zhongsanming/FlagTree "$WORK/FlagTree"
 fi
 
+# almost always fail, try manually clone it
 if [ ! -d "$WORK/llvm-project" ]; then
   # llvm-project is difficult to clone
   for _i in $(seq 1 5); do
