@@ -145,7 +145,7 @@ class BenchFunction(Enum):
             return do_bench_cudagraph_e2e
         raise ValueError(f"Unknown bench function: {self}")
 
-def bench(
+def benchmark(
     fn: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
     a: torch.Tensor,
     b: torch.Tensor,
@@ -192,11 +192,11 @@ def main(shapes: Optional[Path], start: int, stop: int, step: int, bench: BenchF
         a: torch.Tensor = torch.randn(M, K, dtype=dtype, device=flag_gems.device)
         b: torch.Tensor = torch.randn(K, N, dtype=dtype, device=flag_gems.device)
 
-        bench(mm_no_tma, a, b, fn_bench)
+        benchmark(mm_no_tma, a, b, fn_bench)
         if mm_device_tma is not None:
-            bench(mm_device_tma, a, b, fn_bench)
+            benchmark(mm_device_tma, a, b, fn_bench)
         if mm_host_tma is not None:
-            bench(mm_host_tma, a, b, fn_bench)
+            benchmark(mm_host_tma, a, b, fn_bench)
         print()
 
 
