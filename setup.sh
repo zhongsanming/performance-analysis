@@ -2,6 +2,7 @@
 set -euo pipefail
 
 # before running this, you should have clang & lld available in your PATH
+# try: sudo apt install clang lld
 
 export VER=$1
 export WORK=$PWD
