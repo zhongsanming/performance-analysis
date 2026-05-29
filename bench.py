@@ -131,19 +131,51 @@ def do_bench_cudagraph_e2e(fn, rep=20, grad_to_none=None, quantiles=None, return
         return _summarize_statistics(ret, quantiles, return_mode)
 
 
+def do_bench_e2e(fn, rep=20):
+    """
+    Benchmark the runtime of the provided function.
+
+    :param fn: Function to benchmark
+    :type fn: Callable
+    :param rep: Repetition time (in ms)
+    :type rep: int
+    """
+    # warm up
+    fn()
+    start = time.time()
+    for _ in range(5):
+        fn()
+    torch.cuda.synchronize()
+    end = time.time()
+    estimate_ms = (end - start) * 1000 / 5
+    n_repeat = 1000 if estimate_ms == 0 else max(1, int(rep / estimate_ms))
+
+    start = time.time()
+    for i in range(n_repeat):
+        fn()
+    torch.cuda.synchronize()
+    end = time.time()
+    latency = (end - start) * 1000 / n_repeat
+    return latency
+
+
 class BenchFunction(Enum):
     DoBench = "do_bench"
+    DoBenchEE = "do_bench_e2e"
     DoBenchCudaGraph = "do_bench_cudagraph"
     DoBenchCudaGraphEE = "do_bench_cudagraph_e2e"
 
     def func(self) -> Callable[[Callable[[], Any]], float]:
         if self == BenchFunction.DoBench:
             return do_bench
+        if self == BenchFunction.DoBenchEE:
+            return do_bench_e2e
         if self == BenchFunction.DoBenchCudaGraph:
             return do_bench_cudagraph
         if self == BenchFunction.DoBenchCudaGraphEE:
             return do_bench_cudagraph_e2e
         raise ValueError(f"Unknown bench function: {self}")
+
 
 def benchmark(
     fn: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
