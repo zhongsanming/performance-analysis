@@ -7,6 +7,7 @@
 # Which dimension to fix? Choose "M", "N", or "K"
 fixed_dim = (ARGC >= 1) ? ARG1 : "K"
 datafile = (ARGC >= 2) ? ARG2 : "data.txt"
+out_dir = (ARGC >= 3) ? ARG3 : "visualization"
 
 fixed_list = "128 256 512 1024 2048 4096"
 
@@ -62,7 +63,7 @@ set grid
 set size ratio -1
 
 set terminal pngcairo size 2500,1200 enhanced
-set output sprintf("./visualization/heatmap_matrix_%s.png", fixed_dim)
+set output sprintf("./%s/heatmap_matrix_%s.png", out_dir, fixed_dim)
 
 # Count number of fixed values and implementations
 num_fixed = words(fixed_list)

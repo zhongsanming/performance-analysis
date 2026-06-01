@@ -8,7 +8,7 @@ To reproduce benchmark
 
  2. install extract_mm branch of https://github.com/zhongsanming/FlagGems
 
- 3. install dependencies `click`
+ 3. install dependencies `click`, run `python bench.py --help` to see all arguments
 
  4. run `python bench.py | tee result_3_3.txt` and `python bench.py | tee result_3_4.txt` in v3.3 and v3.4 respectively
 
@@ -24,8 +24,15 @@ To reproduce visualization
 
  1. install gnuplot
 
- 2. run `./visualize.ps1 ./export/data-cudagraph.txt` on windows
-
- 3. or run `./visualize.ps1 ./export/data-no-cudagraph.txt` on windows
+ 2. run `./visualize.ps1` on windows
 
 Note: visualization script only support M/N/K size in 128:4097:128 range.
+
+## data
+
+- "./export/data-cudagraph-e2e.txt": end to end time with cudagraph
+- "./export/data-no-cudagraph-e2e.txt": end to end time without cudagraph
+- "./export/data-cudagraph-kernel.txt": kernel time with cudagraph
+- "./export/data-no-cudagraph-kernel.txt": kernel time without cudagraph
+- "./export/data-e2e.txt": end to end time w/o cudagraph
+- "./export/data-kernel.txt": kernel time w/o cudagraph

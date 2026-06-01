@@ -8,6 +8,7 @@
 fixed_dim = (ARGC >= 1) ? ARG1 : "K"
 fixed_val = (ARGC >= 2) ? int(ARG2) : 2048
 datafile = (ARGC >= 3) ? ARG3 : "data.txt"
+out_dir = (ARGC >= 4) ? ARG4 : "visualization"
 
 # ------------------- Determine axes and filter based on fixed_dim -------------------
 if (fixed_dim eq "M") {
@@ -56,7 +57,7 @@ set grid
 set size ratio -1
 
 set terminal pngcairo size 2500,1200 enhanced
-set output sprintf("./visualization/heatmap_slice_%s_%d.png", fixed_dim, fixed_val)
+set output sprintf("./%s/heatmap_slice_%s_%d.png", out_dir, fixed_dim, fixed_val)
 
 # Multiplot layout: rows = num_impl, columns = num_fixed
 # set lmargin at screen 0.02   # reserve space for ylabel on left

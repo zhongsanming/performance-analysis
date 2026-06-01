@@ -10,6 +10,7 @@
 
 # --- argument handling -------------------------------------------------
 datafile = (ARGC >= 1) ? ARG1 : "data.txt"
+out_dir = (ARGC >= 2) ? ARG2 : "visualization"
 
 # --- define implementation names and column numbers -------------------
 impl_names = "V33 V34 DEV-TMA HOST-TMA"   # adjust as needed
@@ -18,7 +19,7 @@ impl_cols_cg  = "8 9 10 11"
 
 # --- plotting settings ------------------------------------------------
 set terminal pngcairo size 1200,800 enhanced
-set output sprintf("./visualization/cudagraph-improve_vs_size.png")
+set output sprintf("./%s/cudagraph-improve_vs_size.png", out_dir)
 
 set title sprintf("CudaGraph Latency Ratio vs Size") font ",24"
 set xlabel "Size" font ",12"

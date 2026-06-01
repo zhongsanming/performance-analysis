@@ -22,6 +22,7 @@ major = ARG1           # "M", "K", or "N"
 fix1  = real(ARG2)     # first fixed value
 fix2  = real(ARG3)     # second fixed value
 datafile = (ARGC >= 4) ? ARG4 : "data.txt"
+out_dir = (ARGC >= 5) ? ARG5 : "visualization"
 
 # --- define implementation names and column numbers -------------------
 impl_names = "V33 V34 DEV-TMA HOST-TMA"   # adjust as needed
@@ -58,7 +59,7 @@ if (major eq "M") {
 
 # --- plotting settings ------------------------------------------------
 set terminal pngcairo size 1200,800 enhanced
-set output sprintf("./visualization/latency_vs_%s_%s%g_%s%g.png", major, col1, fix1, col2, fix2)
+set output sprintf("./%s/latency_vs_%s_%s%g_%s%g.png", out_dir, major, col1, fix1, col2, fix2)
 
 set title sprintf("Latency vs %s  (%s=%g, %s=%g)", \
                   xlabel, col1, fix1, col2, fix2) font ",24"
