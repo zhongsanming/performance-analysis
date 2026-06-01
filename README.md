@@ -36,3 +36,7 @@ Note: visualization script only support M/N/K size in 128:4097:128 range.
 - "./export/data-no-cudagraph-kernel.txt": kernel time without cudagraph
 - "./export/data-e2e.txt": end to end time w/o cudagraph
 - "./export/data-kernel.txt": kernel time w/o cudagraph
+- "./export/data-common-shapes-cudagraph-e2e.txt": end to end time with cudagraph for common shapes
+- "./export/data-common-shapes-cudagraph-kernel.txt": kernel time with cudagraph for common shapes
+- "./export/data-common-shapes-no-cudagraph-e2e.txt": end to end time without cudagraph for common shapes
+- "./export/data-common-shapes-no-cudagraph-kernel.txt": kernel time without cudagraph for common shapes
