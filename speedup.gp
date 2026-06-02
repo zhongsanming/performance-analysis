@@ -40,13 +40,24 @@ if (fixed_dim eq "M") {
 # max function for calculate color range
 max(a, b) = (a > b) ? a : b
 
-set palette viridis
+set palette defined (\
+  -1.0 "#00008b", \
+  -0.00001 "#add8e6", \
+  0 "white", \
+  0.00001 "#e6d8ad", \
+  1.0 "#8b0000")
+# set palette viridis
 set cblabel "Latency (ms)"     # or "ms"
-set cbrange [0:1]
+set cbrange [-1:1]
+set pm3d map
+set contour base
+set cntrparam levels discrete 0
 set view map
 set pm3d at b
+
 set dgrid3d 32 gauss 4.0   # interpolates sparse data
 set pm3d interpolate 2,2
+
 unset key
 
 set xtics 256
@@ -57,11 +68,13 @@ set grid
 set size ratio -1
 
 set terminal pngcairo size 2500,1200 enhanced
-set output sprintf("./%s/heatmap_slice_%s_%d.png", out_dir, fixed_dim, fixed_val)
+set output sprintf("./%s/heatmap_host_tma_speedup_%s_%d.png", out_dir, fixed_dim, fixed_val)
 
 # Multiplot layout: rows = num_impl, columns = num_fixed
 # set lmargin at screen 0.02   # reserve space for ylabel on left
 # set bmargin at screen 0.02   # reserve space for xlabel at bottom
 # set multiplot layout rows,num_fixed margins 0.04,0.96,0.04,0.96 spacing 0.05 title sprintf("Latency heatmaps – fixing %s", fixed_dim) font ",32"
 
-splot datafile using xcol:ycol:(column(fixed_col) == fixed_val ? (column(7) <= column(6) && column(7) <= column(5) && column(7) <= column(4) ? 1.0 : 0.0) : NaN) with pm3d notitle
+set title sprintf("HostTMA vs NoTMA speed up with %s == %d", fixed_dim, fixed_val)
+
+splot datafile using xcol:ycol:(column(5) / column(7) - 1.0) if (column(fixed_col) == fixed_val) with pm3d notitle

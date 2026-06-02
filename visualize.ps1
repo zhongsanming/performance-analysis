@@ -14,10 +14,10 @@ foreach ($mode in ("e2e", "kernel")) {
             }
         }
 
-        # slice
+        # host tma speed up
         foreach ($dim in ("K", "M", "N")) {
             for ($size = 128; $size -le 4096; $size += 128) {
-                gnuplot.exe -c .\slice.gp $dim $size ./export/data-$cg-$mode.txt ./visualization-$cg-$mode
+                gnuplot.exe -c .\speedup.gp $dim $size ./export/data-$cg-$mode.txt ./visualization-$cg-$mode
             }
         }
 
