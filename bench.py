@@ -161,13 +161,13 @@ def get_impl(vanilla: bool) -> list[tuple[str, Callable[[Tensor, Tensor], Tensor
 
     try:
         from flag_gems.runtime.backend._nvidia.hopper.ops.mm import (  # pyright: ignore[reportMissingImports]
-            mm_dev_tma,  # pyright: ignore[reportUnknownVariableType]
+            mm_device_tma,  # pyright: ignore[reportUnknownVariableType]
             mm_host_tma,  # pyright: ignore[reportUnknownVariableType]
         )
 
         return [
             ("no_tma", mm_no_tma),
-            ("dev_tma", mm_dev_tma),
+            ("dev_tma", mm_device_tma),
             ("host_tma", mm_host_tma),
         ]
     except Exception as e:
