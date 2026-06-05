@@ -133,8 +133,9 @@ def benchmark(
     fn_bench: Callable[[Callable[[], Any]], float],  # pyright: ignore[reportExplicitAny]
 ):
     try:
-        ms = fn_bench(lambda: fn(a.clone(), b.clone()))
-    except Exception:
+        ms = fn_bench(lambda: fn(a, b))
+    except Exception as e:
+        print(f"error when bench mm due to {e}.", file=sys.stderr)
         ms = math.nan
     print(f"\t{ms:.6f}", end="")
 
@@ -210,7 +211,7 @@ def main(
             b: Tensor = torch.randn(K, N, dtype=dtype, device=flag_gems.device)  # pyright: ignore[reportUnknownMemberType, reportUnknownArgumentType]
 
             for _, impl in impls:
-                benchmark(impl, a, b, fn_bench)
+                benchmark(impl, a.clone(), b.clone(), fn_bench)
             print()
 
 
