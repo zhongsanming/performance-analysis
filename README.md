@@ -1,6 +1,8 @@
 # Performance Analysis
 
-## benchmark
+## mm dispatch
+
+### benchmark
 
 To reproduce benchmark
 
@@ -18,7 +20,7 @@ To reproduce benchmark
 
 Note: redirected files on Windows contains `Byte Order Mark` which gnuplot can't process correctly, so you'll have to manually copy and paste it into another file with some editor like vscode.
 
-## visualization
+### visualization
 
 To reproduce visualization
 
@@ -28,7 +30,7 @@ To reproduce visualization
 
 Note: visualization script only support M/N/K size in 128:4097:128 range.
 
-## data
+### data
 
 - "./export/data-cudagraph-e2e.txt": end to end time with cudagraph
 - "./export/data-no-cudagraph-e2e.txt": end to end time without cudagraph
@@ -37,9 +39,18 @@ Note: visualization script only support M/N/K size in 128:4097:128 range.
 - "./export/data-e2e.txt": end to end time w/o cudagraph
 - "./export/data-kernel.txt": kernel time w/o cudagraph
 
-## data for matmul optimization(TMA/general dispatch)
+### data for matmul optimization(TMA/general dispatch)
 
 - "./export/data-common-shapes-cudagraph-e2e-opt-ratio.txt": origin/optimized/speedup of end to end time with cudagraph for common shapes
 - "./export/data-common-shapes-cudagraph-kernel-opt-ratio.txt": origin/optimized/speedup of kernel time with cudagraph for common shapes
 - "./export/data-common-shapes-no-cudagraph-e2e-opt-ratio.txt": origin/optimized/speedup of end to end time without cudagraph for common shapes
 - "./export/data-common-shapes-no-cudagraph-kernel-opt-ratio.txt": origin/optimized/speedup of kernel time without cudagraph for common shapes
+
+
+## Performance degression due to explicit int type annotation
+
+### benchmark
+
+benchmark with `pytest benchmark/test_<op>.py --mode=operator --level=core --dtypes bfloat16 --dtypes float32 --record=json`
+
+run `python compare-ops-annotation.py --input ./export/result-patched --base ./export/result-unpatched`
