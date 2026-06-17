@@ -1,4 +1,5 @@
 import json
+import sys
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -156,7 +157,7 @@ def flatten(
 @click.option("-b", "--base", type=Path, required=True)
 def main(input: Path, base: Path):
     assert input.is_dir()
-    total: list[tuple[tuple[str, BenchmarkMode, BenchmarkDtype, str], float]] = []
+    total: list[tuple[tuple[str, BenchmarkMode, BenchmarkDtype, str], tuple[float, float, float]]] = []
     for path in input.iterdir():
         data = flatten(read_benchmark_result(path))
         _base = base / path.name
@@ -165,12 +166,27 @@ def main(input: Path, base: Path):
         data_base = flatten(read_benchmark_result(_base))
         for key, lat in data.items():
             if (lat_base := data_base.get(key)) is None:
-                print(f"{key} does not exist in base")
+                print(f"{key} does not exist in base", file=sys.stderr)
                 continue
-            total.append((key, ((lat_base - lat) / lat) * 100))
-    total.sort(key=lambda x: x[1])
-    for (name, mode, dtype, shape), speedup in total:
-        print(f"{name}, {mode.value} {dtype.value}, {shape} => {speedup:2.2f}%")
+            total.append((key, (lat_base, lat, (lat_base - lat) / lat * 100)))
+    total.sort(key=lambda x: -x[1][2])
+    print('"operator","base","after","speedup","mode","dtype","shape"')
+    for (name, mode, dtype, shape), (lat_base, lat, speedup) in total:
+        print(f'"{name}",{lat_base:.4f},{lat:.4f},{speedup:.2f}%,"{mode}","{dtype}","{shape}"')
+    return
+    _res = dict(map(lambda x: (x[0][0], x[1]), total))
+    # print(_res)
+    for name, (lat_base, lat, speedup) in sorted(_res.items(), key=lambda x: x[1]):
+        if speedup < 5.0:
+            continue
+        print(f"{name} => {speedup}%")
+    n_total = len(_res)
+    n_speedup = len(list(filter(lambda x: x[1][2] >= 5.0, _res.items())))
+    print(f'{n_speedup} / {n_total} => {n_speedup / n_total}')
+    # _res = defaultdict(bool)
+    # for (name, _, _, _), speedup in total:
+        # _res[name] = _res[name] or speedup > 5.0
+    # print(len(list(filter(lambda k: k[1], _res.items()))) / len(_res))
 
 
 if __name__ == "__main__":
