@@ -168,11 +168,11 @@ def main(input: Path, base: Path):
             if (lat_base := data_base.get(key)) is None:
                 print(f"{key} does not exist in base", file=sys.stderr)
                 continue
-            total.append((key, (lat_base, lat, (lat_base - lat) / lat * 100)))
+            total.append((key, (lat_base, lat, lat_base / lat)))
     total.sort(key=lambda x: -x[1][2])
-    print('"operator","base","after","speedup","mode","dtype","shape"')
+    print('operator\tbase\tafter\tspeedup\tmode\tdtype\tshape')
     for (name, mode, dtype, shape), (lat_base, lat, speedup) in total:
-        print(f'"{name}",{lat_base:.4f},{lat:.4f},{speedup:.2f}%,"{mode}","{dtype}","{shape}"')
+        print(f'{name}\t{lat_base:.6f}\t{lat:.6f}\t{speedup:.4f}\t{mode.value}\t{dtype.value}\t"{shape.replace(" ", "")}"')
     return
     _res = dict(map(lambda x: (x[0][0], x[1]), total))
     # print(_res)
